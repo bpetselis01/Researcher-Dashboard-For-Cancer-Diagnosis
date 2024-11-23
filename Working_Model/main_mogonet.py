@@ -9,7 +9,7 @@ if __name__ == "__main__":
     # train_test(): This is the function that adds training and testing functionality
     # ------------------------------------------------------------------------------------------------------------------------
     
-    # When the user uploads the folder onto our website, we get the name of the folder from that
+    # When the user uploads the folder onto our website, we get the name of the folder too
     data_folder = 'BRCA'
 
     # view_list = [1,2,3]
