@@ -12,6 +12,15 @@ from utils import one_hot_tensor, cal_sample_weight, gen_adj_mat_tensor, gen_tes
 cuda = True if torch.cuda.is_available() else False
 
 
+# Guide to prepare_trte_data, this is where the "database" would come in
+# Instead of os.path... which gets file from computer, needs to be altered to get from database instead
+# ------------------------------------------------------------------------------------------------------------------------
+# labels_tr.csv: Training Labels
+# labels_te.csv: Testing Labels
+# 1_tr.csv: Training Data View 1
+# 2_tr.csv: Training Data View 2
+# 1_te.csv: Training Data View 1
+# ------------------------------------------------------------------------------------------------------------------------
 def prepare_trte_data(data_folder, view_list):
     num_view = len(view_list)
     labels_tr = np.loadtxt(os.path.join(data_folder, "labels_tr.csv"), delimiter=',')
@@ -157,11 +166,16 @@ def train_test(data_folder, view_list, num_class,
             print()
 
     # use the model_dict 
-    view_list = [1]
+    # view_list = [1]
 
     featimp_list = cal_feat_imp(data_folder, model_dict, view_list, num_class)
     summarize_imp_feat(featimp_list)
 
+# Guide to cal_feat_imp, this is where the "database" would come in again
+# Instead of os.path... which gets file from computer, needs to be altered to get from database instead
+# ------------------------------------------------------------------------------------------------------------------------
+# 1_featname.csv: feature names View 1
+# ------------------------------------------------------------------------------------------------------------------------
 def cal_feat_imp(data_folder, model_dict, view_list, num_class):
     num_view = len(view_list)
     dim_hvcdn = pow(num_class,num_view)
