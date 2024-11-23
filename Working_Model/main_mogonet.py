@@ -3,6 +3,11 @@
 from train_test import train_test
 
 if __name__ == "__main__":    
+
+    # This is the main "integration" point
+    # ------------------------------------------------------------------------------------------------------------------------
+    # train_test(): This is the function that adds training and testing functionality
+    # ------------------------------------------------------------------------------------------------------------------------
     
     # When the user uploads the folder onto our website, we get the name of the folder from that
     data_folder = 'BRCA'

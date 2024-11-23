@@ -154,6 +154,14 @@ def train_test(data_folder, view_list, num_class,
                     onehot_labels_tr_tensor, sample_weight_tr, model_dict, optim_dict)
         if epoch % test_inverval == 0:
             te_prob = test_epoch(data_trte_list, adj_te_list, trte_idx["te"], model_dict)
+
+            # This is where the data for the visualisation comes in
+            # If done correctly, below section will produce 3 graphs
+            # Each Epoch add 3 distinct points to it's respective curves
+            # ------------------------------------------------------------------------------------------------------------------------
+            # Test ACC: Plots for accuracy curve, each epoch adds the next point
+            # ------------------------------------------------------------------------------------------------------------------------
+
             print("\nTest: Epoch {:d}".format(epoch))
             if num_class == 2:
                 print("Test ACC: {:.3f}".format(accuracy_score(labels_trte[trte_idx["te"]], te_prob.argmax(1))))
