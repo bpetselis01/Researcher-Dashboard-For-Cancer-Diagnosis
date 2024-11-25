@@ -20,7 +20,7 @@ CREATE TABLE Patients (
 );
 
 -- Import data from mutationalData.csv file
-LOAD DATA INFILE '/BIOM9450/databases/mutationalData.csv' 
+LOAD DATA INFILE 'C:\Users\ayush\biom9450\main\BIOM9450\databases\mutationalData.csv' 
 INTO TABLE Patients
 FIELDS TERMINATED BY ',' 
 LINES TERMINATED BY '\n' 
@@ -40,7 +40,7 @@ INSERT INTO Users (first_name, last_name, username, password_hash, role) VALUES
 ('Michael', 'Clark', 'mclark_researcher', SHA2('data4life', 256), 'Researcher');
 
 -- Insert data into Patient table
-INSERT INTO Patients (specimen_id, mutation_type, cancer_type) VALUES
+INSERT INTO Patients (patient_id, mutation_type, cancer_type) VALUES
 ('SP112909', 'single base substitution', 'Brain'),
 ('SP112909', 'insertion of <=200bp', 'Brain'),
 ('SP192770', 'single base substitution', 'Breast'),
