@@ -1,173 +1,96 @@
--- Fetch basic details of all patients
-DROP PROCEDURE IF EXISTS GetAllPatients //
-CREATE PROCEDURE GetAllPatients()
-BEGIN
-    SELECT 
-        p.patient_id AS PatientID,
-        CONCAT(p.first_name, ' ', p.last_name) AS FullName,
-        p.sex AS Gender,
-        p.email AS Email,
-        p.phone AS PhoneNumber,
-        p.country AS Country,
-        p.age AS Age
-    FROM 
-        Patients p
-    ORDER BY 
-        p.last_name;
-END //
+-- Retrieve all users and their roles
+SELECT user_id, first_name, last_name, username, role, created_at 
+FROM Users;
 
--- Fetch detailed information for a patient by name
-DROP PROCEDURE IF EXISTS GetPatientDetailsByName //
-CREATE PROCEDURE GetPatientDetailsByName(IN searchName VARCHAR(255))
-BEGIN
-    SELECT 
-        p.patient_id AS PatientID,
-        CONCAT(p.first_name, ' ', p.last_name) AS FullName,
-        p.sex AS Gender,
-        p.email AS Email,
-        p.phone AS PhoneNumber,
-        p.country AS Country,
-        p.cancer_type AS CancerType,
-        p.age AS Age,
-        p.treatment AS TreatmentPlan,
-        p.mutational_profile AS MutationalProfile
-    FROM 
-        Patients p
-    WHERE 
-        LOWER(CONCAT(p.first_name, ' ', p.last_name)) LIKE LOWER(CONCAT('%', searchName, '%'));
-END //
+-- Retrieve all patients and their information
+SELECT patient_id, mutation_type, cancer_type, created_at 
+FROM Patients;
 
--- Fetch mutational profiles for all patients
-DROP PROCEDURE IF EXISTS GetMutationalProfiles //
-CREATE PROCEDURE GetMutationalProfiles()
+-- Find all patients with a specific cancer type
+CREATE PROCEDURE GetPatientsByCancerType(IN cancerType VARCHAR(100))
 BEGIN
-    SELECT 
-        p.patient_id AS PatientID,
-        CONCAT(p.first_name, ' ', p.last_name) AS FullName,
-        p.mutational_profile AS MutationalProfile
-    FROM 
-        Patients p
-    WHERE 
-        p.mutational_profile IS NOT NULL;
-END //
+    SELECT patient_id, mutation_type, cancer_type 
+    FROM Patients
+    WHERE cancer_type = cancerType;
+END;
 
--- Insert a new oncologist
-DROP PROCEDURE IF EXISTS InsertOncologist //
-CREATE PROCEDURE InsertOncologist(
+-- Find all patients with a specific mutation type
+CREATE PROCEDURE GetPatientsByMutationType(IN mutationType VARCHAR(255))
+BEGIN
+    SELECT patient_id, mutation_type, cancer_type 
+    FROM Patients
+    WHERE mutation_type = mutationType;
+END;
+
+-- Find patients who have both a specific mutation type and cancer type
+CREATE PROCEDURE GetPatientsByMutationAndCancerType(IN mutationType VARCHAR(255), IN cancerType VARCHAR(100))
+BEGIN
+    SELECT patient_id, mutation_type, cancer_type 
+    FROM Patients
+    WHERE mutation_type = mutationType AND cancer_type = cancerType;
+END;
+
+-- Add a new user
+CREATE PROCEDURE AddUser(
     IN firstName VARCHAR(50),
     IN lastName VARCHAR(50),
     IN username VARCHAR(50),
-    IN passwordHash VARCHAR(255)
+    IN password VARCHAR(255),
+    IN role ENUM('Oncologist', 'Researcher')
 )
 BEGIN
-    INSERT INTO Users (
-        first_name,
-        last_name,
-        username,
-        password_hash,
-        role
-    ) VALUES (
-        firstName,
-        lastName,
-        username,
-        passwordHash,
-        'Oncologist'
-    );
-END //
+    INSERT INTO Users (first_name, last_name, username, password_hash, role)
+    VALUES (firstName, lastName, username, SHA2(password, 256), role);
+END;
 
--- Insert a new researcher
-DROP PROCEDURE IF EXISTS InsertResearcher //
-CREATE PROCEDURE InsertResearcher(
-    IN firstName VARCHAR(50),
-    IN lastName VARCHAR(50),
-    IN username VARCHAR(50),
-    IN passwordHash VARCHAR(255)
+-- Add a new patient record
+CREATE PROCEDURE AddPatient(
+    IN specimenID VARCHAR(20),
+    IN mutationType VARCHAR(255),
+    IN cancerType VARCHAR(100)
 )
 BEGIN
-    INSERT INTO Users (
-        first_name,
-        last_name,
-        username,
-        password_hash,
-        role
-    ) VALUES (
-        firstName,
-        lastName,
-        username,
-        passwordHash,
-        'Researcher'
-    );
-END //
+    INSERT INTO Patients (patient_id, mutation_type, cancer_type)
+    VALUES (specimenID, mutationType, cancerType);
+END;
 
--- Insert a new patient
-DROP PROCEDURE IF EXISTS InsertPatient //
-CREATE PROCEDURE InsertPatient(
-    IN firstName VARCHAR(50),
-    IN lastName VARCHAR(50),
-    IN sex ENUM('Male', 'Female', 'Other'),
-    IN email VARCHAR(100),
-    IN phone VARCHAR(15),
-    IN country VARCHAR(50),
-    IN age INT,
-    IN cancerType VARCHAR(100),
-    IN treatment TEXT,
-    IN mutationalProfile TEXT
+-- Get the count of patients per cancer type
+CREATE PROCEDURE GetPatientCountByCancerType()
+BEGIN
+    SELECT cancer_type, COUNT(*) AS patient_count
+    FROM Patients
+    GROUP BY cancer_type
+    ORDER BY patient_count DESC;
+END;
+
+-- Get the count of patients per mutation type
+CREATE PROCEDURE GetPatientCountByMutationType()
+BEGIN
+    SELECT mutation_type, COUNT(*) AS patient_count
+    FROM Patients
+    GROUP BY mutation_type
+    ORDER BY patient_count DESC;
+END;
+
+-- Update a patient's mutation type and cancer type
+CREATE PROCEDURE UpdatePatientInfo(
+    IN specimenID VARCHAR(20),
+    IN newMutationType VARCHAR(255),
+    IN newCancerType VARCHAR(100)
 )
 BEGIN
-    INSERT INTO Patients (
-        first_name,
-        last_name,
-        sex,
-        email,
-        phone,
-        country,
-        age,
-        cancer_type,
-        treatment,
-        mutational_profile
-    ) VALUES (
-        firstName,
-        lastName,
-        sex,
-        email,
-        phone,
-        country,
-        age,
-        cancerType,
-        treatment,
-        mutationalProfile
-    );
-END //
+    UPDATE Patients
+    SET mutation_type = newMutationType, cancer_type = newCancerType
+    WHERE patient_id = specimenID;
+END;
 
--- Fetch cancer type statistics
-DROP PROCEDURE IF EXISTS GetCancerTypeStats //
-CREATE PROCEDURE GetCancerTypeStats()
+-- Delete a patient record by ID
+CREATE PROCEDURE DeletePatient(IN specimenID VARCHAR(20))
 BEGIN
-    SELECT 
-        p.cancer_type AS CancerType,
-        COUNT(*) AS PatientCount
-    FROM 
-        Patients p
-    WHERE 
-        p.cancer_type IS NOT NULL
-    GROUP BY 
-        p.cancer_type
-    ORDER BY 
-        PatientCount DESC;
-END //
+    DELETE FROM Patients
+    WHERE patient_id = specimenID;
+END;
 
--- Fetch patients filtered by age range
-DROP PROCEDURE IF EXISTS GetPatientsByAgeRange //
-CREATE PROCEDURE GetPatientsByAgeRange(IN minAge INT, IN maxAge INT)
-BEGIN
-    SELECT 
-        p.patient_id AS PatientID,
-        CONCAT(p.first_name, ' ', p.last_name) AS FullName,
-        p.sex AS Gender,
-        p.age AS Age,
-        p.cancer_type AS CancerType
-    FROM 
-        Patients p
-    WHERE 
-        p.age BETWEEN minAge AND maxAge;
-END //
+-- Verify users and patients
+SELECT * FROM Users;
+SELECT * FROM Patients;

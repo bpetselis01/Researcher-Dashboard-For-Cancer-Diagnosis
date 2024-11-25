@@ -1,0 +1,10 @@
+Specimen,mutation_type,Cancer type
+SP112909,single base substitution,Brain
+SP192770,single base substitution,Breast
+SP112909,insertion of <=200bp,Brain
+SP195936,single base substitution,Brain
+SP195938,single base substitution,Breast
+SP195941,single base substitution,Blood
+SP195947,single base substitution,Prostate
+SP195961,single base substitution,Liver
+SP195965,single base substitution,Breast
