@@ -1,10 +1,10 @@
-patient_id,mutation_type,cancer_type
-SP112909,single base substitution,Brain
-SP192770,single base substitution,Breast
-SP112909,insertion of <=200bp,Brain
-SP195936,single base substitution,Brain
-SP195938,single base substitution,Breast
-SP195941,single base substitution,Blood
-SP195947,single base substitution,Prostate
-SP195961,single base substitution,Liver
-SP195965,single base substitution,Breast
+patient_id,first_name,last_name,sex,age,mutation_type,cancer_type
+SP112909,Jake,Diggle,Man,63,single base substitution,Brain
+SP192770,Wiggle,Niggle,Female,29,single base substitution,Breast
+SP112909,Shiv,Mishra,Other,50,insertion of <=200bp,Brain
+SP195936,Shashank,Mishra,Male,70,single base substitution,Brain
+SP195938,Aviral,Vij,Male,20,single base substitution,Breast
+SP195941,Asmita,Singhai,Female,47,single base substitution,Blood
+SP195947,John,Baked,Male,30,single base substitution,Prostate
+SP195961,Jenna,Ortega,Female,28,single base substitution,Liver
+SP195965,Raki,Inder,Female,48,single base substitution,Breast
