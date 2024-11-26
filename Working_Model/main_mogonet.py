@@ -9,8 +9,8 @@ if __name__ == "__main__":
     # train_test(): This is the function that adds training and testing functionality
     # ------------------------------------------------------------------------------------------------------------------------
     
-    # When the user uploads the folder onto our website, we get the name of the folder too
-    data_folder = 'BRCA'
+    # When the user uploads the folder onto our website, we get the name of the folder from that
+    data_folder = 'ROSMAP'
 
     # view_list = [1,2,3]
     # Guide to view_list, we might want to let the user choose the combination
@@ -41,4 +41,4 @@ if __name__ == "__main__":
     
     train_test(data_folder, view_list, num_class,
                lr_e_pretrain, lr_e, lr_c, 
-               num_epoch_pretrain, num_epoch)             
+               num_epoch_pretrain, num_epoch)

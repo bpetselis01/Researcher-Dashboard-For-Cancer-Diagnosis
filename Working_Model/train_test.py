@@ -153,6 +153,7 @@ def train_test(data_folder, view_list, num_class,
         train_epoch(data_tr_list, adj_tr_list, labels_tr_tensor, 
                     onehot_labels_tr_tensor, sample_weight_tr, model_dict, optim_dict)
         if epoch % test_inverval == 0:
+            # te_prob = test_epoch(data_trte_list, adj_te_list, trte_idx["te"], model_dict)
             te_prob = test_epoch(data_trte_list, adj_te_list, trte_idx["te"], model_dict)
 
             # This is where the data for the visualisation comes in
@@ -173,8 +174,7 @@ def train_test(data_folder, view_list, num_class,
                 print("Test F1 macro: {:.3f}".format(f1_score(labels_trte[trte_idx["te"]], te_prob.argmax(1), average='macro')))
             print()
 
-    # use the model_dict 
-    # view_list = [1]
+            print(f"Predictions: {te_prob.argmax(1)}\n")
 
     featimp_list = cal_feat_imp(data_folder, model_dict, view_list, num_class)
     summarize_imp_feat(featimp_list)
