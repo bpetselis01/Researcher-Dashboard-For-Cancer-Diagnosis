@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CancerScope - Revolutionary Cancer Diagnosis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfdfd;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 10%;
+            background: #c76262;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .navbar a {
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: none;
+        }
+
+        .navbar .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .navbar img {
+            border-radius: 20px;
+        }
+
+        .navbar img:visited {
+            text-decoration: none;
+        }
+
+        .navbar .nav-links .btn {
+            color: #fff;
+            background: transparent;
+            border: 0.01px solid #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar .nav-links .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0.8;
+        }
+
+        .navbar .nav-links .btn:active {
+            background: rgba(255, 255, 255, 0.4);
+            opacity: 0.6;
+        }
+
+        .navbar .nav-links .btn img {
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+    
+
+        /* Welcome Section */
+        .welcome-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 70%, rgba(236, 210, 210, 1) 100%), 
+                        url('../images/CancerPhoto.png') no-repeat center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px;
+        }
+
+        .welcome-section h1 {
+            font-size: 3.5rem;
+            margin: 0;
+        }
+
+        .welcome-section h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin: 20px 0 30px;
+            margin-bottom: 100px;
+        }
+
+        .view-more-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #e74c3c;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .view-more-button:hover {
+            background: #c0392b;
+        }
+        /* Intro Section */
+        .intro-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 100px 10%;
+            background: linear-gradient(rgba(236, 210, 210, 0.99), #c36e6e);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            z-index: 0;
+            animation: rotateGlow 25s linear infinite;
+        }
+
+        .intro-section .card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 420px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1.5s ease-in-out;
+        }
+
+        .intro-section .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .intro-section .card h2 {
+            color: #c76262;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1.5s ease-in-out;
+        }
+
+        .intro-section .card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .intro-section .card img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            animation: fadeInUp 1.5s ease-in-out;
+            transition: transform 0.3s ease;
+        }
+
+        .intro-section .card img:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Steps Section */
+        .process-section {
+            background: linear-gradient(#c36e6e, #dd9d9d);
+            text-align: center;
+            padding: 100px;
+        }
+
+        .process-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #fff;
+        }
+
+        .process-section p {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .step {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            flex: 1 1 calc(33% - 30px);
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #c76262;
+        }
+
+        .step p {
+            font-size: 1rem;
+            color: #777;
+            line-height: 1.6;
+        }
+
+
+        /* Register Section */
+        .register-section {
+            text-align: center;
+            padding: 80px 10%;
+            background: linear-gradient(#dd9d9d, rgb(244, 211, 211));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .imagerow {
+            display: flex; /* Activates flexbox */
+            flex-direction: row; /* Default value, ensures items are in a row */
+            justify-content: center;
+            align-items: center; /* Aligns items vertically */
+        }
+        .imagerow img{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 80px;
+            border: 3px solid #c76262;
+        }
+
+        .register-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            z-index: 0;
+            animation: rotateGlow 20s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .register-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+            color: #fff;
+        }
+
+        .register-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .register-section .register-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background: #c76262;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .register-section .register-button:hover {
+            background: #c0392b;
+            color: #fff;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background: rgb(244, 211, 211);
+            padding: 60px 10%;
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            font-size: 2.5rem;
+            color: #c76262;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            max-width: 300px;
+            flex: 1 1 calc(33% - 20px);
+        }
+
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            border: 3px solid #c76262;
+        }
+
+        .testimonial-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 10px 0 5px;
+        }
+
+        .testimonial-card .user-info {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(rgb(244, 211, 211), white);
+            padding: 100px 10%;
+            text-align: center;
+        }
+
+        .faq-section h1 {
+            text-align: center;
+            color: #c76262;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+        }
+
+        .faq-item {
+            margin-bottom: 30px;
+        }
+
+        .faq-item h3 {
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .faq-item h3:hover {
+            color: #c76262;
+        }
+
+        .faq-item p {
+            font-size: 1rem;
+            color: #555;
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #c76262;
+            color: #fff;
+        }
+
+        footer a {
+            color: #f39c12;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        // FAQ Toggle
+        function toggleFAQ(index) {
+            const faqs = document.querySelectorAll(".faq-item p");
+            faqs[index].style.display = faqs[index].style.display === "block" ? "none" : "block";
+        }
+    </script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">CancerScope</div>
+        <div class="linktonsw">
+            <a href="https://www.cancer.nsw.gov.au/">
+                <img width="200" height="80" src="../images/linknsw.png">
+            </a>
+            <a href="https://www.cancer.org.au/">
+                <img width="200" height="80" src="../images/cc.png">
+            </a>
+            
+        </div>
+        <div class="nav-links">
+            <a href="../html/auth.html" class="btn">
+                <img width="24" height="24" src="https://img.icons8.com/material-rounded/24/person-male.png" alt="person-male">
+                Login / Sign Up
+            </a>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <h1>Welcome to CancerScope</h1>
+        <h2>Revolutionizing Cancer Diagnosis</h2>
+        <button class="view-more-button" onclick="scrollToSection()">Explore More</button>
+    </section>
+
+    <!-- Intro Section -->
+    <section class="intro-section">
+        <div class="card">
+            <img src="../images/dna.png" alt="What We Do Icon">
+            <h2>What We Do</h2>
+            <p>We redefine cancer diagnosis with innovation and precision. Upload your genetic data and receive a comprehensive analysis of your cancer risks.</p>
+        </div>
+        <div class="card">
+            <img src="../images/Who.png" alt="Who We Are Icon">
+            <h2>Who We Are</h2>
+            <p>We are a team of dedicated UNSW students passionate about using technology to empower individuals with knowledge and tools to fight cancer guided by UNSW world renowned professor Hamid.</p>
+        </div>
+    </section>
+
+
+    <!-- Steps Section -->
+    <section class="process-section">
+        <h2>How It Works</h2>
+        <p>Getting insights about your cancer risks is as easy as 1-2-3. Follow the steps below to start your journey:</p>
+        <div class="process-steps">
+            <div class="step">
+                <h3>Step 1: Register</h3>
+                <p>Create an account to securely access our platform.</p>
+            </div>
+            <div class="step">
+                <h3>Step 2: Upload Genetic Data</h3>
+                <p>Upload your genetic information, obtained through your medical professional.</p>
+            </div>
+            <div class="step">
+                <h3>Step 3: Get Insights</h3>
+                <p>Receive a comprehensive report on your potential cancer risks in no time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Register Section -->
+    <section class="register-section">
+        <h2>Register Today</h2>
+        <p>Join thousands of others who are taking proactive steps towards better health with CancerScope.</p>
+        <div class="imagerow">
+            <img src="../images/user1.png" alt="user">
+            <img src="../images/user2.png" alt="user">
+            <img src="../images/user3.png" alt="user">
+            <img src="../images/user4.png" alt="user">
+            <img src="../images/user5.png" alt="user">
+            <img src="../images/user6.png" alt="user">
+            <img src="../images/user7.png" alt="user">
+            <img src="../images/user8.png" alt="user">
+            <img src="../images/user9.png" alt="user">
+            <img src="../images/user10.png" alt="user">
+            <img src="../images/user11.png" alt="user">
+            <img src="../images/user12.png" alt="user">
+            <img src="../images/Who.png" alt="user">
+        </div>
+        <button class="register-button" onclick="location.href='#'">Sign Up Now</button>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-cards">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+                <img src="../images/user1.png" alt="Sarah W.">
+                <h3>Sarah W.</h3>
+                <p class="user-info">Age: 34, Location: Sydney, Australia</p>
+                <p>"CancerScope provided me with life-saving insights that allowed me to take proactive steps as a member from a cancer prone family. Highly recommend!"</p>
+            </div>
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card">
+                <img src="../images/user2.png" alt="Dr. John D.">
+                <h3>Dr. John S.</h3>
+                <p class="user-info">Age: 45, Location: New York, USA</p>
+                <p>"A revolutionary platform that has changed how we approach cancer risks. A must-have for every healthcare provider in my opinion as a doctor at the WWE Hospitals Network USA."</p>
+            </div>
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card">
+                <img src="../images/user3.png" alt="Maria T.">
+                <h3>Maria T.</h3>
+                <p class="user-info">Age: 29, Location: London, UK</p>
+                <p>"The accuracy and simplicity of CancerScope have given me peace of mind about my health as a patient scared about my future health outlook."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h1>Frequently Asked Questions</h1>
+        <div class="faq-item">
+            <h3 onclick="toggleFAQ(0)">What is CancerScope?</h3>
+            <p>CancerScope is a revolutionary platform offering personalized cancer risk diagnosis through advanced genetic data analysis.</p>
+        </div>
+        <div class="faq-item">
+            <h3 onclick="toggleFAQ(1)">Is my data secure?</h3>
+            <p>Yes, all data uploaded to CancerScope is encrypted and stored securely to protect your privacy.</p>
+        </div>
+        <div class="faq-item">
+            <h3 onclick="toggleFAQ(2)">How accurate is the diagnosis?</h3>
+            <p>CancerScope boasts an industry-leading 98% accuracy rate, providing highly reliable results.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 CancerScope. All Rights Reserved.</p>
+        <p>Contact: <a href="mailto:support@cancerscope.com">support@cancerscope.com</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+/* General Styling */
+html, body {
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar .nav-links a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: #ccc900;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background-image: url('../images/CancerPhoto.png'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    padding: 250px 10px;
+    color: white;
+}
+
+.welcome-section h1 {
+    font-size: 70px;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-section h2 {
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.view-more-button {
+    background-color: #ccc900;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-more-button:hover {
+    background-color: #005ea6;
+}
+
+/* Information Section */
+.intro-section {
+    padding: 100px 20px;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    color: #333;
+}
+
+.intro-content {
+    max-width: 800px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.intro-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+}
+
+.intro-content img {
+    width: 250px;
+    border-radius: 10px;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    
+}
+
+footer a {
+    color: #ccc900;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #fff;
+}

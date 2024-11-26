@@ -1,0 +1,7 @@
+numpy==1.24.0               # A specific version of numpy
+pandas>=1.5.0,<2.0          # Any version of pandas between 1.5.0 and less than 2.0
+scikit-learn==1.2.0         # Exact version of scikit-learn
+matplotlib                  # Latest version of matplotlib
+seaborn>=0.11.0             # Any version of seaborn >= 0.11.0
+tensorflow                  # Latest tensorflow
+torch==2.0.0                # PyTorch, specific version
