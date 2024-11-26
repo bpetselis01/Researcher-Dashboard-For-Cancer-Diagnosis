@@ -11,6 +11,51 @@ from models import init_model_dict, init_optim
 from utils import one_hot_tensor, cal_sample_weight, gen_adj_mat_tensor, gen_test_adj_mat_tensor, cal_adj_mat_parameter
 cuda = True if torch.cuda.is_available() else False
 
+def split_csv_line_by_line(input_data_file, input_labels_file, test_size, train_size, output_folder, prefix):
+    # Ensure the output directory exists
+    os.makedirs(output_folder, exist_ok=True)
+
+    # Define the output file paths using the prefix variable
+    test_data_file = os.path.join(output_folder, f"{prefix}_te_split.csv")
+    train_data_file = os.path.join(output_folder, f"{prefix}_tr_split.csv")
+    test_labels_file = os.path.join(output_folder, f"labels_te_split.csv")
+    train_labels_file = os.path.join(output_folder, f"labels_tr_split.csv")
+
+    # Open the input files and output files
+    with open(input_data_file, 'r') as data_in, \
+         open(input_labels_file, 'r') as labels_in, \
+         open(test_data_file, 'w') as test_data_out, \
+         open(train_data_file, 'w') as train_data_out, \
+         open(test_labels_file, 'w') as test_labels_out, \
+         open(train_labels_file, 'w') as train_labels_out:
+        
+        # Write the header line to all output files
+        data_header = data_in.readline()
+        labels_header = labels_in.readline()
+        test_data_out.write(data_header)
+        train_data_out.write(data_header)
+        test_labels_out.write(labels_header)
+        train_labels_out.write(labels_header)
+
+        # Process the rows line by line
+        for idx, (data_row, labels_row) in enumerate(zip(data_in, labels_in)):
+            if idx < test_size:
+                # Write to test files
+                test_data_out.write(data_row)
+                test_labels_out.write(labels_row)
+            elif idx < test_size + train_size:
+                # Write to train files
+                train_data_out.write(data_row)
+                train_labels_out.write(labels_row)
+            else:
+                # Stop processing if the required number of rows has been written
+                break
+
+    print(f"Successfully created the following files:")
+    print(f"  - Test data: {test_data_file}")
+    print(f"  - Train data: {train_data_file}")
+    print(f"  - Test labels: {test_labels_file}")
+    print(f"  - Train labels: {train_labels_file}")
 
 # Guide to prepare_trte_data, this is where the "database" would come in
 # Instead of os.path... which gets file from computer, needs to be altered to get from database instead
@@ -23,15 +68,19 @@ cuda = True if torch.cuda.is_available() else False
 # ------------------------------------------------------------------------------------------------------------------------
 def prepare_trte_data(data_folder, view_list):
     num_view = len(view_list)
-    labels_tr = np.loadtxt(os.path.join(data_folder, "labels_tr.csv"), delimiter=',')
-    labels_te = np.loadtxt(os.path.join(data_folder, "labels_te.csv"), delimiter=',')
+    # labels_tr = np.loadtxt(os.path.join(data_folder, "labels_tr.csv"), delimiter=',')
+    # labels_te = np.loadtxt(os.path.join(data_folder, "labels_te.csv"), delimiter=',')
+    labels_tr = np.loadtxt(os.path.join(data_folder, "labels_tr_split.csv"), delimiter=',')
+    labels_te = np.loadtxt(os.path.join(data_folder, "labels_te_split.csv"), delimiter=',')
     labels_tr = labels_tr.astype(int)
     labels_te = labels_te.astype(int)
     data_tr_list = []
     data_te_list = []
     for i in view_list:
-        data_tr_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_tr.csv"), delimiter=','))
-        data_te_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_te.csv"), delimiter=','))
+        # data_tr_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_tr.csv"), delimiter=','))
+        # data_te_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_te.csv"), delimiter=','))
+        data_tr_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_tr_split.csv"), delimiter=','))
+        data_te_list.append(np.loadtxt(os.path.join(data_folder, str(i)+"_te_split.csv"), delimiter=','))
     num_tr = data_tr_list[0].shape[0]
     num_te = data_te_list[0].shape[0]
     data_mat_list = []

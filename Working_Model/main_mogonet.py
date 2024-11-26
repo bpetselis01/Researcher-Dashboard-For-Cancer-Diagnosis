@@ -1,6 +1,6 @@
 """ Example for MOGONET classification
 """
-from train_test import train_test
+from train_test import train_test, split_csv_line_by_line
 
 if __name__ == "__main__":    
 
@@ -21,6 +21,11 @@ if __name__ == "__main__":
     # 1,2 OR 1,2,3 OR 1,3: Cross Omics Discovery Tensor -> View Correlation Discorvery Network -> Final Prediction
     # ------------------------------------------------------------------------------------------------------------------------
     view_list = [1]
+    view_to_file_map = {
+        1: f"{data_folder}/1_new_patients.csv",
+        2: f"{data_folder}/2_new_patients.csv",
+        3: f"{data_folder}/3_new_patients.csv"
+    }
 
     num_epoch_pretrain = 500
     num_epoch = 2500
@@ -38,7 +43,22 @@ if __name__ == "__main__":
         num_class = 2
     if data_folder == 'BRCA':
         num_class = 5
-    
+
+    input_labels_file = f"{data_folder}/all_labels.csv"
+    test_size = 100
+    train_size = 250
+
+    # Iterate over the views specified in view_list and process the corresponding files
+    for view in view_list:
+        if view in view_to_file_map:
+            input_data_file = view_to_file_map[view]
+            prefix = str(view)  # Use the view number as the prefix for output files
+
+            # Split the file
+            split_csv_line_by_line(input_data_file, input_labels_file, test_size, train_size, data_folder, prefix)
+        else:
+            print(f"Warning: View {view} does not have a corresponding data file.")
+
     train_test(data_folder, view_list, num_class,
                lr_e_pretrain, lr_e, lr_c, 
                num_epoch_pretrain, num_epoch)
