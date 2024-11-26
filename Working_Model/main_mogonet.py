@@ -10,6 +10,7 @@ if __name__ == "__main__":
     # ------------------------------------------------------------------------------------------------------------------------
     
     # When the user uploads the folder onto our website, we get the name of the folder from that
+    # USER INPUT: data_folder 
     data_folder = 'ROSMAP'
 
     # view_list = [1,2,3]
@@ -20,6 +21,7 @@ if __name__ == "__main__":
     # 3: GCN miRNA
     # 1,2 OR 1,2,3 OR 1,3: Cross Omics Discovery Tensor -> View Correlation Discorvery Network -> Final Prediction
     # ------------------------------------------------------------------------------------------------------------------------
+    # USER INPUT: view_list 
     view_list = [1]
     view_to_file_map = {
         1: f"{data_folder}/1_new_patients.csv",
@@ -45,8 +47,10 @@ if __name__ == "__main__":
         num_class = 5
 
     input_labels_file = f"{data_folder}/all_labels.csv"
-    test_size = 100
-    train_size = 250
+    # USER INPUT: test_size
+    test_size = 70
+    # USER INPUT: train_size
+    train_size = 280
 
     # Iterate over the views specified in view_list and process the corresponding files
     for view in view_list:
