@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - CancerScope</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(#c76262, #dd9d9d);
+            padding: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            max-width: 100%;
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .card.active {
+            display: block;
+        }
+
+        .card h2 {
+            color: #c76262;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        /* Form Styling */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #666666;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c76262;
+            box-shadow: 0 0 5px rgba(199, 98, 98, 0.5);
+        }
+
+        .form-group .error {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            background: #c76262;
+            color: #fff;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: #b24f4f;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .alternate-action {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .alternate-action a {
+            color: #c76262;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .alternate-action a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Register Card -->
+        <div class="card" id="registerCard">
+            <h2>Register for CancerScope</h2>
+            <form action="databases/index.php" method="post" onsubmit="return validateForm()">
+                <input type="hidden" name="action" value="register"> <!-- Specify the action -->
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" onchange="return validateName()" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">First Name</label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" onchange="return validateName()" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" onchange="return validateEmail()" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="text" id="dob" name="dob" maxlength="10" placeholder="DD/MM/YYYY" onchange="return validateDob()" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" onchange="return validateGender()" required>
+                        <option value="">Select...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select...</option>
+                        <option value="oncologist">Oncologist</option>
+                        <option value="researcher">Researcher</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a password" onchange="return validatePassword()" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onchange="return validateConfirmPassword()" required>
+                </div>
+                
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <p class="alternate-action">Already have an account? <a href="#" onclick="toggleCard('loginCard')">Login</a></p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="card" id="loginCard">
+            <h2>Login to CancerScope</h2>
+            <form action="databases/index.php" method="post" onsubmit="return validateLogin()">
+                <input type="hidden" name="action" value="login"> <!-- Specify the action -->
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p class="alternate-action">Don't have an account? <a href="#" onclick="toggleCard('registerCard')">Register</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between register and login forms
+        function toggleCard(cardId) {
+            document.getElementById('registerCard').classList.remove('active');
+            document.getElementById('loginCard').classList.remove('active');
+            document.getElementById(cardId).classList.add('active');
+        }
+
+        // Validate registration form
+        function validateForm() {
+            return validateName() && validateEmail() && validateDob() &&
+                validateGender() && validatePassword() && validateConfirmPassword();
+        }
+
+        function validateName() {
+            const name = document.getElementById('name').value;
+            const regex = /^[a-zA-Z\s'-]+$/;
+            if (!regex.test(name)) {
+                alert("Invalid name. Only letters, spaces, hyphens, and apostrophes are allowed.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateEmail() {
+            const email = document.getElementById('email').value;
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regex.test(email)) {
+                alert("Invalid email format.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateDob() {
+            const dob = document.getElementById('dob').value;
+            const regex = /^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/;
+            if (!regex.test(dob)) {
+                alert("Invalid date of birth format. Use DD/MM/YYYY.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateGender() {
+            const gender = document.getElementById('gender').value;
+            if (!gender) {
+                alert("Please select a gender.");
+                return false;
+            }
+            return true;
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password').value;
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!regex.test(password)) {
+                alert("Password must contain at least 8 characters, including uppercase, lowercase, and numbers.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateConfirmPassword() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            return true;
+        }
+
+        toggleCard('registerCard'); // Show registration card by default
+    </script>
+</body>
+</html>
