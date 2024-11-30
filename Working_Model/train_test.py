@@ -1,5 +1,8 @@
 """ Training and testing of the model
 """
+
+# Any amendments (including) to MOGOGNET below was made by: Byron Petselis, z5397993
+
 import os
 import copy
 import numpy as np
