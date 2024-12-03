@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualize Genes - CancerScope</title>
+</head>
+<body>
+    <h1>Gene Visualization</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Gene</th>
+                <th>Mutation Count</th>
+            </tr>
+        </thead>
+        <tbody id="geneVisualization"></tbody>
+    </table>
+    <script>
+        fetch('databases/index.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=fetch_gene_mutations'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const table = document.getElementById('geneVisualization');
+            table.innerHTML = data.genes.map((gene, i) => `
+                <tr>
+                    <td>${gene}</td>
+                    <td>${data.mutationCounts[i]}</td>
+                </tr>
+            `).join('');
+        })
+        .catch(console.error);
+    </script>
+</body>
+</html>

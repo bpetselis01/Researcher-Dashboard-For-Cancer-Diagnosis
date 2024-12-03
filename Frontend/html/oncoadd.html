@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Patient - CancerScope</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(#6a5acd, #836fff);
+            color: #fff;
+            width: 220px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: #5541d6;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 240px;
+            padding: 50px;
+        }
+
+        .main-content h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #6a5acd;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #555;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #6a5acd;
+            box-shadow: 0 0 4px rgba(106, 90, 205, 0.5);
+            outline: none;
+        }
+
+        .btn {
+            background: #6a5acd;
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            background: #5541d6;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>CancerScope</h2>
+        <a href="onco.html">Dashboard</a>
+        <a href="index.html">Log Out</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Add New Patient</h1>
+        <div class="form-container">
+            <form id="addPatientForm">
+                <div class="form-group">
+                    <label for="patientId">Patient ID:</label>
+                    <input type="text" id="patientId" name="patient_id" placeholder="Enter unique patient ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="first_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="last_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="sex">Sex:</label>
+                    <select id="sex" name="sex" required>
+                        <option value="">Select...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required>
+                </div>
+                <div class="form-group">
+                    <label for="mutationType">Mutation Type:</label>
+                    <input type="text" id="mutationType" name="mutation_type">
+                </div>
+                <div class="form-group">
+                    <label for="gene">Gene Affected:</label>
+                    <input type="text" id="gene" name="gene_affected">
+                </div>
+                <div class="form-group">
+                    <label for="chromosome">Chromosome:</label>
+                    <input type="text" id="chromosome" name="chromosome">
+                </div>
+                <div class="form-group">
+                    <label for="cancerType">Cancer Type:</label>
+                    <input type="text" id="cancerType" name="cancer_type" required>
+                </div>
+                <button type="submit" class="btn">Add Patient</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('addPatientForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+    
+            const formData = new FormData(this);
+    
+            // Debugging: Log form data to ensure it's captured correctly
+            console.log("Form data before submission:");
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+    
+            fetch('databases/index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    action: 'add_patient',
+                    patient_id: formData.get('patient_id'),
+                    first_name: formData.get('first_name'),
+                    last_name: formData.get('last_name'),
+                    sex: formData.get('sex'),
+                    age: formData.get('age'),
+                    mutation_type: formData.get('mutation_type'),
+                    gene_affected: formData.get('gene_affected'),
+                    chromosome: formData.get('chromosome'),
+                    cancer_type: formData.get('cancer_type'),
+                }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Server response:", data);
+    
+                    if (data.success) {
+                        alert('Patient added successfully!');
+                        document.getElementById('addPatientForm').reset(); // Reset the form
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error during fetch:", error);
+                    alert("An error occurred while adding the patient. Please try again.");
+                });
+        });
+    </script>
+</body>
+</html>
