@@ -11,36 +11,31 @@
             font-family: 'Montserrat', sans-serif;
             margin: 0;
             display: flex;
-            height: 100vh;
+            min-height: 100vh;
+            background: #f5f5f5;
             color: #333;
-            background-color: #fdfdfd;
         }
 
         /* Sidebar */
         .sidebar {
             background: linear-gradient(#c76262, #dd9d9d);
             color: #fff;
-            width: 250px;
-            height: 100%;
+            width: 220px;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
             position: fixed;
-            left: 0;
             top: 0;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar.closed {
-            transform: translateX(-100%);
+            left: 0;
+            height: 100vh;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar h2 {
             font-size: 1.8rem;
-            margin-bottom: 20px;
             font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
         .sidebar a {
@@ -48,98 +43,78 @@
             text-decoration: none;
             font-size: 1rem;
             font-weight: 600;
-            margin: 10px 0;
             padding: 10px 15px;
-            width: 100%;
-            text-align: center;
+            margin: 10px 0;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: background 0.3s ease;
         }
 
         .sidebar a:hover {
             background: #b24f4f;
         }
 
-        /* Sidebar Toggle Button */
-        .sidebar-toggle {
-            position: fixed;
-            left: 10px;
-            top: 10px;
-            background: #c76262;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            z-index: 1000;
-        }
+    
 
         /* Main Content */
         .main-content {
             flex-grow: 1;
-            margin-left: 250px;
-            padding: 40px;
-            background: #fdfdfd;
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.full-width {
-            margin-left: 0;
+            margin-left: 240px;
+            padding: 50px;
         }
 
         .main-content h1 {
-            font-size: 2.2rem;
+            font-size: 2.4rem;
+            font-weight: 700;
             color: #c76262;
-            margin-bottom: 20px;
-        }
-
-        .main-content p {
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .main-content .section {
             margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+        }
+
+        .section {
             background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .main-content .section h2 {
-            font-size: 1.5rem;
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .visual-report {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .section p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .section select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 10px;
         }
 
         .chart {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
             background: #eaeaea;
+            border-radius: 10px;
+            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             color: #555;
-            margin-top: 20px;
-            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <!-- Sidebar -->
-    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
         <h2>CancerScope</h2>
         <a href="upload.html">Upload Genetic Data</a>
         <a href="consult.html">Consult / Ask a Question</a>
@@ -149,40 +124,31 @@
     </div>
 
     <!-- Main Content -->
-    <div class="main-content" id="mainContent">
-        <h1>Prediction Report</h1>
+    <div class="main-content">
+        <h1>Welcome to Your Dashboard</h1>
 
         <div class="section">
             <h2>Select Prediction Report</h2>
             <p>Choose a prediction report from the dropdown below to view detailed insights.</p>
-            <select id="reportSelector" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; margin-top: 10px;">
+            <select id="reportSelector">
                 <option value="report1">Prediction Report - March 2024</option>
                 <option value="report2">Prediction Report - June 2024</option>
                 <option value="report3">Prediction Report - November 2024</option>
             </select>
         </div>
 
-        <div class="section visual-report">
+        <div class="section">
             <h2>Prediction Analysis</h2>
             <div class="chart" id="chartPlaceholder">
-                Chart/Graph of Prediction Data
+                Select a report to view the chart here.
             </div>
         </div>
     </div>
 
     <script>
-        // Sidebar toggle function
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            sidebar.classList.toggle('closed');
-            mainContent.classList.toggle('full-width');
-        }
-
-        // Report selection event
-        document.getElementById('reportSelector').addEventListener('change', function() {
+        document.getElementById('reportSelector').addEventListener('change', function () {
             const chart = document.getElementById('chartPlaceholder');
-            chart.textContent = `Displaying ${this.value}`;
+            chart.textContent = `Displaying data for ${this.value}`;
         });
     </script>
 </body>

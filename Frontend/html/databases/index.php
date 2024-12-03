@@ -36,6 +36,9 @@ if ($method === 'POST') {
         case 'fetch_gene_mutations':
             fetchGeneMutations();
             break;
+        case 'add_patient':
+            addPatient();
+            break;
         default:
             echo json_encode(['error' => 'Invalid action']);
     }
@@ -97,17 +100,19 @@ function handleRegistration() {
     $stmt->bindValue(':passwordHash', $passwordHash, SQLITE3_TEXT);
     $stmt->bindValue(':role', $role, SQLITE3_TEXT);
 
-    
-    if ($role === 'oncologist') {
-        header('Location: ../oncologist_dashboard.html');
-    } elseif ($role === 'researcher') {
-        header('Location: ../researcher_dashboard.html');
-    } elseif ($role === 'other') {
-        header('Location: ../dashboard.html');
+    if ($stmt->execute()) {
+        // Redirect based on role
+        if ($role === 'oncologist') {
+            header('Location: ../onco.html');
+        } elseif ($role === 'researcher') {
+            header('Location: ../rese.html');
+        } else {
+            header('Location: ../dashboard.html');
+        }
+        exit;
     } else {
         echo json_encode(['error' => 'Failed to register user']);
     }
-    exit;
 }
 
 // Handle user login
@@ -137,9 +142,9 @@ function handleLogin() {
         // Redirect based on role
         $role = $user['role'];
         if ($role === 'oncologist') {
-            header('Location: ../oncologist_dashboard.html');
+            header('Location: ../onco.html');
         } elseif ($role === 'researcher') {
-            header('Location: ../researcher_dashboard.html');
+            header('Location: ../rese.html');
         } else {
             header('Location: ../dashboard.html');
         }
@@ -149,13 +154,16 @@ function handleLogin() {
     }
 }
 
-// Fetch patients
+// Fetch all patients (for Oncologist Dashboard)
 function fetchPatients() {
     $conn = getDbConnection();
-    $query = trim($_POST['query'] ?? '');
+
+    $query = $_POST['query'] ?? ''; // Optional filter by chromosome, gene, etc.
     $stmt = $conn->prepare("
         SELECT * FROM Patients 
-        WHERE chromosome LIKE :query OR gene LIKE :query
+        WHERE chromosome LIKE :query 
+           OR gene_affected LIKE :query
+           OR cancer_type LIKE :query
     ");
     $stmt->bindValue(':query', '%' . $query . '%', SQLITE3_TEXT);
     $result = $stmt->execute();
@@ -167,34 +175,93 @@ function fetchPatients() {
     echo json_encode($patients);
 }
 
-// Fetch patient details
+// Fetch detailed patient information (for Oncologist Dashboard)
 function fetchPatientDetails() {
     $conn = getDbConnection();
-    $patientId = intval($_POST['patient_id'] ?? 0);
+    $patientId = trim($_POST['patient_id'] ?? '');
 
-    $stmt = $conn->prepare("SELECT * FROM Patients WHERE patient_id = :id");
-    $stmt->bindValue(':id', $patientId, SQLITE3_INTEGER);
+    if (!$patientId) {
+        echo json_encode(['error' => 'Patient ID is required']);
+        return;
+    }
+
+    $stmt = $conn->prepare("SELECT * FROM Patients WHERE patient_id = :patient_id");
+    $stmt->bindValue(':patient_id', $patientId, SQLITE3_TEXT);
     $result = $stmt->execute();
 
     $patient = $result->fetchArray(SQLITE3_ASSOC);
-    echo json_encode($patient);
+    if ($patient) {
+        echo json_encode($patient);
+    } else {
+        echo json_encode(['error' => 'Patient not found']);
+    }
 }
 
-// Fetch gene mutation counts
+// Fetch gene mutation counts (for Researcher Dashboard)
 function fetchGeneMutations() {
     $conn = getDbConnection();
+
     $stmt = $conn->prepare("
-        SELECT gene, COUNT(*) as mutation_count 
-        FROM Mutations 
-        GROUP BY gene
+        SELECT gene_affected AS gene, COUNT(*) AS mutation_count
+        FROM Patients
+        GROUP BY gene_affected
+        ORDER BY mutation_count DESC
     ");
     $result = $stmt->execute();
 
     $geneData = [];
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $geneData['genes'][] = $row['gene'];
-        $geneData['mutationCounts'][] = $row['mutation_count'];
+        $geneData[] = $row;
     }
     echo json_encode($geneData);
+}
+
+// Add a new patient (for Oncologist Dashboard)
+function addPatient() {
+    $conn = getDbConnection();
+
+    // Capture and sanitize inputs
+    $patientId = trim($_POST['patient_id'] ?? '');
+    $firstName = trim($_POST['first_name'] ?? '');
+    $lastName = trim($_POST['last_name'] ?? '');
+    $sex = trim($_POST['sex'] ?? '');
+    $age = intval($_POST['age'] ?? 0);
+    $mutationType = trim($_POST['mutation_type'] ?? '');
+    $geneAffected = trim($_POST['gene_affected'] ?? '');
+    $chromosome = trim($_POST['chromosome'] ?? '');
+    $cancerType = trim($_POST['cancer_type'] ?? '');
+
+    // Input validation
+    if (!$patientId || !$firstName || !$lastName || !$sex || !$cancerType) {
+        echo json_encode(['error' => 'Required fields are missing']);
+        return;
+    }
+
+    if (!in_array($sex, ['Male', 'Female', 'Other'])) {
+        echo json_encode(['error' => 'Invalid sex']);
+        return;
+    }
+
+    // Prepare and execute insert query
+    $stmt = $conn->prepare("
+        INSERT INTO Patients (patient_id, first_name, last_name, sex, age, mutation_type, gene_affected, chromosome, cancer_type)
+        VALUES (:patient_id, :first_name, :last_name, :sex, :age, :mutation_type, :gene_affected, :chromosome, :cancer_type)
+    ");
+    $stmt->bindValue(':patient_id', $patientId, SQLITE3_TEXT);
+    $stmt->bindValue(':first_name', $firstName, SQLITE3_TEXT);
+    $stmt->bindValue(':last_name', $lastName, SQLITE3_TEXT);
+    $stmt->bindValue(':sex', $sex, SQLITE3_TEXT);
+    $stmt->bindValue(':age', $age, SQLITE3_INTEGER);
+    $stmt->bindValue(':mutation_type', $mutationType, SQLITE3_TEXT);
+    $stmt->bindValue(':gene_affected', $geneAffected, SQLITE3_TEXT);
+    $stmt->bindValue(':chromosome', $chromosome, SQLITE3_TEXT);
+    $stmt->bindValue(':cancer_type', $cancerType, SQLITE3_TEXT);
+
+    try {
+        $stmt->execute();
+        echo json_encode(['success' => 'Patient added successfully']);
+    } catch (Exception $e) {
+        echo json_encode(['error' => 'Failed to add patient: ' . $e->getMessage()]);
+    }
 }
 ?>

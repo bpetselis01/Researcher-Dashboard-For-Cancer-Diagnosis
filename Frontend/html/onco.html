@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oncologist Dashboard - CancerScope</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(#6a5acd, #836fff);
+            color: #fff;
+            width: 220px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background: #5541d6;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            margin-left: 240px;
+            padding: 50px;
+        }
+
+        .main-content h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #6a5acd;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background: #6a5acd;
+            color: #fff;
+        }
+
+        table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .btn {
+            background: #6a5acd;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #5541d6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>CancerScope</h2>
+        <a href="oncoadd.html" id="addPatientLink">Add Patient</a>
+        <a href="index.html">Log Out</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Welcome, Oncologist</h1>
+
+        <div class="section" id="patientSection">
+            <h2>Patient Details</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                        <th>Gene</th>
+                        <th>Chromosome</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                    <!-- Data loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Fetch Patients from API
+        function fetchPatients() {
+            fetch('databases/index.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ action: 'fetch_patients', query: '' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('patientTableBody');
+                tableBody.innerHTML = ''; // Clear table body
+                data.forEach(patient => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${patient.patient_id}</td>
+                        <td>${patient.first_name} ${patient.last_name}</td>
+                        <td>${patient.sex}</td>
+                        <td>${patient.age}</td>
+                        <td>${patient.gene_affected}</td>
+                        <td>${patient.chromosome}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(err => console.error('Error fetching patients:', err));
+        }
+
+        // Initialize On Page Load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPatients(); // Load patients on page load
+        });
+    </script>
+</body>
+</html>

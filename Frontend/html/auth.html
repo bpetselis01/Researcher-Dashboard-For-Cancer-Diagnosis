@@ -76,11 +76,6 @@
             box-shadow: 0 0 5px rgba(199, 98, 98, 0.5);
         }
 
-        .form-group .error {
-            color: #e74c3c;
-            font-size: 0.9rem;
-        }
-
         /* Buttons */
         .btn {
             display: inline-block;
@@ -102,6 +97,26 @@
 
         .btn:active {
             transform: scale(0.98);
+        }
+
+        .back-btn {
+            display: inline-block;
+            width: 100%;
+            background: #fff;
+            color: #c76262;
+            border: 1px solid #c76262;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c76262;
+            color: #fff;
         }
 
         .alternate-action {
@@ -133,7 +148,7 @@
                     <input type="text" id="first_name" name="first_name" placeholder="Enter your first name" onchange="return validateName()" required>
                 </div>
                 <div class="form-group">
-                    <label for="last_name">First Name</label>
+                    <label for="last_name">Last Name</label>
                     <input type="text" id="last_name" name="last_name" placeholder="Enter your last name" onchange="return validateName()" required>
                 </div>
                 <div class="form-group">
@@ -170,8 +185,8 @@
                     <label for="confirmPassword">Confirm Password</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onchange="return validateConfirmPassword()" required>
                 </div>
-                
                 <button type="submit" class="btn">Register</button>
+                <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
             </form>
             <p class="alternate-action">Already have an account? <a href="#" onclick="toggleCard('loginCard')">Login</a></p>
         </div>
@@ -190,6 +205,7 @@
                     <input type="password" id="loginPassword" name="password" placeholder="Enter your password" required>
                 </div>
                 <button type="submit" class="btn">Login</button>
+                <button type="button" class="back-btn" onclick="window.history.back()">Back</button>
             </form>
             <p class="alternate-action">Don't have an account? <a href="#" onclick="toggleCard('registerCard')">Register</a></p>
         </div>
