@@ -1,5 +1,5 @@
-# BIOM9450
-BIOM9450 Project Repo
+# Using MOGONET to detect cancer/tumors
+- Specifically Breast invasive carcinoma PAM50 subtype & Alzheimer's Disease (AD) patients versus Normal Control (NC)
 
 
 # PLEASE READ FOR GUIDE TO USING MODEL
