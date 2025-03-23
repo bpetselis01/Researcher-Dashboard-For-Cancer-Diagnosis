@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page with Header</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="validateRegistration.js" defer></script>
+</head>
+<body>
+    <!-- Common Header Section for every page -->
+    <header>
+        <div class="logo">
+            <a href="index.html" class="home-link">
+                <img src="logo.jpg" alt="MedTech Conference Logo">
+                <span>Health CodeX Workshop 2024</span>
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="program.html">Program</a></li>
+                <li><a href="inquiries.html">Inquiries</a></li>
+                <li><a href="resources.html">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main content of the page -->
+    <main>
+
+        <!-- Q1, Q2: Introduction & Abstract Button -->
+        <section class="intro-section">
+            <div class="intro-content">
+                <h2>Welcome to the Health CodeX Workshop 2024</h2>
+                <p>Join us at the annual Health CodeX Workshop 2024 to explore the latest advancements in medical data standards and healthcare technologies.</p>
+                <a href="abstract.html" class="intro-button">Submit Abstract &#8594;</a>
+            </div>
+            <div class="intro-image">
+                <img src="intro_photo.jpg" alt="stock intro">
+            </div>
+        </section>
+
+        <!-- Q2: Venue Information Section with Google Map -->
+        <section class="venue-info">
+            <div class="venue-content">
+                <div class="venue-text">
+                    <h2>Venue Information</h2>
+                    <p>The Health CodeX Workshop 2024 will be held at:</p>
+                    <p><strong>University of New South Wales (UNSW)</strong><br>
+                    Leighton Hall, John Niland Scientia Building, UNSW (G19 Library Rd, Kensington NSW 2052)</p>
+
+                    <p><strong>Contact Number:</strong> +61 2 9385 1000</p>
+
+                    <h3>Facilities Available:</h3>
+                    <ul>
+                        <li>Lecture Theatres equipped with modern AV systems</li>
+                        <li>On-site catering and refreshments</li>
+                        <li>Accessible parking and public transport</li>
+                    </ul>
+                </div>
+
+                <!-- Q7: Google Maps iframe embedded here -->
+                <div class="venue-map">
+                    <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3311.014938491378!2d151.22942311561635!3d-33.91714628064542!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b12b06d9f9d5ed9%3A0x8e61ed92ba7aa8!2sMichael%20Crouch%20Innovation%20Centre!5e0!3m2!1sen!2sus!4v1697747962011!5m2!1sen!2sus" 
+                    width="600" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                  </iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Q9: Registration Form -->
+
+        <section class="registration-section">
+            <h1>Register for the Health CodeX Workshop 2024</h1>
+            <form id="registrationForm" onsubmit="return validateForm()" method="GET" action="successfulRegistration.html">
+        
+                <h2>Login details:</h2>
+    
+                <!-- Email Field -->
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email" required onchange="validateEmail()" class="inputText">
+                <span id="email-error" class="error-message"></span>
+    
+                <!-- Password Field -->
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required onchange="validatePassword()" class="inputText">
+                <span id="password-error" class="error-message"></span>
+    
+                <!-- Re-enter Password Field -->
+                <label for="confirm-password">Re-enter Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Repeat Password" required onchange="passwordsMatch()" class="inputText">
+                <span id="confirm-password-error" class="error-message"></span>
+        
+                <h2>User details:</h2>
+    
+                <!-- First Name Field -->
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="first-name" placeholder="Enter First Name" required onchange="validateFirstname()" class="inputText">
+                <span id="first-name-error" class="error-message"></span>
+    
+                <!-- Last Name Field -->
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="last-name" placeholder="Enter Last Name" required onchange="validateLastname()" class="inputText">
+                <span id="last-name-error" class="error-message"></span>
+    
+                <!-- Date of Birth Field -->
+                <label for="dob">DOB (dd/mm/yyyy)</label>
+                <input type="text" id="dob" name="dob" placeholder="Enter DOB" required onchange="validateDOB()" class="inputText">
+                <span id="dobError" class="error-message"></span>
+    
+                <!-- Gender Field -->
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+    
+                <!-- Marketing Material Checkbox -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="marketing" name="marketing">
+                    <label for="marketing">I want to receive marketing material</label>
+                </div>
+        
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button type="button" class="cancel-button">Cancel</button>
+                    <button type="submit" class="submit-button">Register now!</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <!-- Q5: Footer with contact information -->
+    <footer>
+        <div class="footer-content">
+            <h3>Contact Information</h3>
+            <p>If you have any questions regarding the Health CodeX Workshop 2024, feel free to reach out to the organizers:</p>
+            <ul>
+                <li>Email: <a href="mailto:organizers@healthcodex2024.com">organizers@healthcodex2024.com</a></li>
+                <li>Phone: +61 2 9385 1000</li>
+                <li>Address: University of New South Wales (UNSW), Kensington, Sydney, NSW 2052, Australia</li>
+            </ul>
+            <p>&copy; 2024 Health CodeX Workshop. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script src="validateRegistration.js"></script>
+</html>
